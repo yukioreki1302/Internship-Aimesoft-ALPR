@@ -1,0 +1,12 @@
+
+path: cars_license_plate_new
+
+train: train/images
+val: val/images
+test: test/images
+
+# number of classes
+nc: 1
+
+# class names
+names: ['license_plate']
