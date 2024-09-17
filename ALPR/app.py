@@ -4,15 +4,14 @@ import os
 from ultralytics import YOLO
 import pytesseract
 from pytesseract import Output
-import matplotlib.pyplot as plt
+import re
 import numpy as np
-import pytesseract
 
 # Chỉ định đường dẫn đến tesseract nếu cần
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 app = Flask(__name__)
-model = YOLO(r'C:\Users\admin\OneDrive\Documents\GitHub\Internship-Aimesoft-ALPR\ALPR\best_license_plate_model.pt')
+model = YOLO(r'C:\Users\admin\OneDrive\Documents\GitHub\Internship-Aimesoft-ALPR\ALPR\runs\detect\train4\weights\best.pt')
 
 # Set up the path for uploaded files
 UPLOAD_FOLDER = r'C:\Users\admin\OneDrive\Documents\GitHub\Internship-Aimesoft-ALPR\ALPR\static\uploads'
@@ -31,20 +30,27 @@ def process_image(image_path):
             x1, y1, x2, y2 = map(int, box.xyxy[0])
             confidence = box.conf[0]
 
+            # Vẽ hình chữ nhật bao quanh biển số xe
             cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.putText(image, f'{confidence*100:.2f}%', (x1, y1 - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
 
+            # Lấy vùng ROI (biển số xe) để xử lý OCR
             roi = gray_image[y1:y2, x1:x2]
             text = pytesseract.image_to_string(roi, lang='eng', config=r'--oem 3 --psm 8')
-            cv2.putText(image, f'{text}', (x1, y2 + 20),
+
+            # Loại bỏ các ký tự không phải là chữ số hoặc chữ cái
+            clean_text = re.sub(r'[^A-Za-z0-9]', '', text)
+
+            # Hiển thị kết quả sau khi làm sạch
+            cv2.putText(image, f'{clean_text}', (x1, y2 + 20),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 123, 0), 2)
 
-    # Save the processed image to 'static/uploads/'
+    # Lưu ảnh đã xử lý vào thư mục 'static/uploads/'
     result_image_path = os.path.join(app.config['UPLOAD_FOLDER'], 'result.jpg')
     cv2.imwrite(result_image_path, cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
 
-    # Return relative path for HTML
+    # Trả về đường dẫn tương đối cho HTML
     return 'uploads/result.jpg'
 
 @app.route('/', methods=['GET', 'POST'])
