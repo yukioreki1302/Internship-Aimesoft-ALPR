@@ -11,10 +11,10 @@ import numpy as np
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 app = Flask(__name__)
-model = YOLO(r'C:\Users\admin\OneDrive\Documents\GitHub\Internship-Aimesoft-ALPR\ALPR\runs\detect\train4\weights\best.pt')
+model = YOLO(r'C:\Users\admin\OneDrive\Documents\GitHub\ALPR_VJU_Internship\Internship-Aimesoft-ALPR\ALPR\runs\detect\train7\weights\best.pt')
 
 # Set up the path for uploaded files
-UPLOAD_FOLDER = r'C:\Users\admin\OneDrive\Documents\GitHub\Internship-Aimesoft-ALPR\ALPR\static\uploads'
+UPLOAD_FOLDER = r'C:\Users\admin\OneDrive\Documents\GitHub\ALPR_VJU_Internship\Internship-Aimesoft-ALPR\ALPR\static\uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Function to process image

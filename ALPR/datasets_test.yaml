@@ -1,0 +1,6 @@
+train: C:/Users/admin/OneDrive/Documents/GitHub/Test/Internship-Aimesoft-ALPR/ALPR/datasets/cars_license_plate_new/train/images
+val: C:/Users/admin/OneDrive/Documents/GitHub/Test/Internship-Aimesoft-ALPR/ALPR/datasets/cars_license_plate_new/val/images
+test: C:/Users/admin/OneDrive/Documents/GitHub/Test/Internship-Aimesoft-ALPR/ALPR/datasets/cars_license_plate_new/test/images
+
+nc: 1
+names: ['license_plate']
