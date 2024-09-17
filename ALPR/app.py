@@ -36,7 +36,7 @@ def process_image(image_path):
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
 
             roi = gray_image[y1:y2, x1:x2]
-            text = pytesseract.image_to_string(roi, lang='eng', config=r'--oem 3 --psm 6')
+            text = pytesseract.image_to_string(roi, lang='eng', config=r'--oem 3 --psm 8')
             cv2.putText(image, f'{text}', (x1, y2 + 20),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 123, 0), 2)
 
